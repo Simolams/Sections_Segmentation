@@ -11,6 +11,9 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 import transformers
 import os
+import utils
+from utils import *
+
 
 current_directory = os.getcwd()
 
@@ -44,11 +47,9 @@ config = {
 
 
 # taking a sample of dataset data validation for model testing
-data_preprocessed  =  os.path.join(current_directory, "../data_preprocessed/data_claim.csv")
 
-
-unique_df = pd.read_csv(data_preprocessed)
-unique_df = unique_df.sample(int(unique_df.shape[0]*0.50)).reset_index(drop=True)
+unique_df = pd.read_csv(data_transformed_path)
+unique_df = unique_df.sample(int(unique_df.shape[0]*0.1)).reset_index(drop=True)
 unique_df.shape
 
 np.random.seed(100)
@@ -76,3 +77,32 @@ final_train_id_list, final_train_sentences, final_train_keywords, final_train_la
 final_valid_id_list, final_valid_sentences, final_valid_keywords, final_valid_labels = dataset_2_list(df=valid_df)
 
 ##
+
+
+train_prod_input = form_input(ID=final_train_id_list, 
+                              sentence=final_train_sentences, 
+                              kword=final_train_keywords, 
+                              label=final_train_labels, 
+                              data_type='train')
+
+valid_prod_input = form_input(ID=final_valid_id_list, 
+                              sentence=final_valid_sentences, 
+                              kword=final_valid_keywords, 
+                              label=final_valid_labels, 
+                              data_type='valid')
+
+print("from input done !")
+train_prod_input_data_loader = DataLoader(train_prod_input, 
+                                          batch_size= config['batch_size'], 
+                                          shuffle=True)
+
+valid_prod_input_data_loader = DataLoader(valid_prod_input, 
+                                          batch_size= config['batch_size'], 
+                                          shuffle=True)
+
+
+
+print('Start training ... ')
+model, val_predictions, val_true_labels,history = train_engine(epoch=config['Epoch'],
+                                                       train_data=train_prod_input_data_loader, 
+                                                       valid_data=valid_prod_input_data_loader )
