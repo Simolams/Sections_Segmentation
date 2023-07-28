@@ -6,31 +6,25 @@ import pandas as pd
 # Get the current working directory
 current_directory = os.getcwd()
 
+import sys
+current_directory = current_directory.replace('\data','')
+sys.path.append(current_directory)
+import variables
+
+
 ## Define paths and configurations
 # Define paths using os.path.join to create full paths
-bert_path = os.path.join(current_directory, "../ChackpointHG") # Full path to the "ChackpointHG" folder
-train_path = os.path.join(current_directory, "../datsets/train/") # Full path to the "train" folder inside "datsets"
-test_path = os.path.join(current_directory, "") # Empty path, might be updated later
-model_path = os.path.join(current_directory, "") # Empty path, might be updated later
-model_name = os.path.join(current_directory, "../ChackpointHG") # Full path to the "ChackpointHG" folder
-data_path = os.path.join(current_directory, "../datsets/train.csv") # Define the  path to the data file
-data_transformed_path =  os.path.join(current_directory, "../datsets/data_preprocessed/data_claim.csv")
-paragraph_key = 'Lead'
 
+bert_path = variables.bert_path
+train_path = variables.train_path
+test_path = variables.test_path
+model_path = variables.model_path
+test_path = variables.test_path
+data_path = variables.data_path
+data_transformed_path =  variables.data_transformed_path
+paragraph_key = variables.paragraph_key
+config = variables.config
 
-print("", os.path.join(current_directory, bert_path))  # Print the joined path for debugging
-
-config = {
-    'MAX_LEN': 100,
-    'tokenizer': AutoTokenizer.from_pretrained(os.path.join(current_directory, bert_path), do_lower_case=True),
-    'batch_size': 32,
-    'Epoch': 1,
-    'train_path': train_path,
-    'test_path': test_path, 
-    'device': 'cuda' if torch.cuda.is_available() else 'cpu',
-    'model_path': bert_path,
-    'model_name': model_name
-}
 
 
 # Read the data from CSV file

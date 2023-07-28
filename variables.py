@@ -13,7 +13,7 @@ test_path = os.path.join(current_directory, "") # Empty path, might be updated l
 model_path = os.path.join(current_directory, "") # Empty path, might be updated later
 model_name = os.path.join(current_directory, "../ChackpointHG") # Full path to the "ChackpointHG" folder
 data_path = os.path.join(current_directory, "../datsets/train.csv") # Define the  path to the data file
-data_transformed_path =  os.path.join(current_directory, "../datsets/data_preprocessed/data_claim.csv")
+data_transformed_path =  os.path.join(current_directory, "../datsets/data_preprocessed/data_lead.csv")
 paragraph_key = 'Lead'
 
 
